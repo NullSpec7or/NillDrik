@@ -1,5 +1,2 @@
-argparse
-subprocess
-os
-sys
-json
+gitpython
+packaging
