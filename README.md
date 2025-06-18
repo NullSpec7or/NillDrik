@@ -29,8 +29,8 @@ This tool was created by [@Null Spec7or](https://twitter.com/nullspec7or) and is
 
 ## 🧑‍💻 Code Authors
 
-- **Rupesh Kumar (@Null Spec7or)** 
-  Linkdein:[https://www.linkedin.com/in/rupeshkumar33/)
+- **Rupesh Kumar (@Null Spec7or)** <br>
+  Linkdein: https://www.linkedin.com/in/rupeshkumar33 <br>
   Twitter: [@nullspec7or](https://twitter.com/nullspec7or)  
   GitHub: [github.com/NullSpec7or](https://github.com/NullSpec7or)
 
@@ -49,12 +49,11 @@ Make sure you have the following installed:
 ## 📦 Installation
 
 ```bash
-git clone https://github.com/yourusername/nilldrik.git
+git clone https://github.com/NullSpec7or/NillDrik.git
 cd nilldrik
 pip install -r requirements.txt
 ```
 
-> Replace `yourusername` with your actual GitHub username or organization name.
 
 ---
 
@@ -94,7 +93,7 @@ python nilldrik.py --format all --min-cve-year 2020
 
 ## 📁 Output
 
-The final report will be saved in the current directory in the specified format(s):
+The final report will be saved in the NillDrik's-Report's directory in the specified format(s):
 
 - `cve_report.json`
 - `cve_report.csv`
@@ -121,7 +120,7 @@ nilldrik/
 
 ## 📜 License
 
-This project is licensed under the **MIT License**. See `LICENSE` for more details.
+This project is licensed under the **Apache 2.0 License**. See `LICENSE` for more details.
 
 ---
 
