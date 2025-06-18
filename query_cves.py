@@ -10,7 +10,7 @@ from pathlib import Path
 import re
 
 
-REPORT_DIR = "Drishti-Report"
+REPORT_DIR = "NillDrick's-Report"
 os.makedirs(REPORT_DIR, exist_ok=True)
 
 BANNER = r"""
@@ -218,7 +218,7 @@ def generate_final_report(matches, fmt="json"):
 
     if fmt in ["html", "all"]:
         with open(base_name.with_suffix(".html"), "w") as f:
-            f.write("<html><head><title>Drishti CVE Scanner</title></head><body>")
+            f.write("<html><head><title>Nill Drick CVE Scanner</title></head><body>")
             f.write(f"<pre>{BANNER.replace('\n', '<br>').replace(' ', '&nbsp;')}</pre><hr>")
             for m in matches:
                 f.write(f"<h3>{m['cve']}</h3>")
