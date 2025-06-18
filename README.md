@@ -59,6 +59,13 @@ pip install -r requirements.txt
 
 ## ⚙️ Usage
 
+### First Scan
+
+For the first scan , it is required to run this command in order to build your local CVE DB. This process can take anywhere between 18-40 minutes on first run. Subsequent scans are expected to complete under 20 minutes , however, this depends upon the system which is being scanned. 
+
+```bash
+python3 nilldrik.py --update --update-db 
+```
 ### Basic Scan
 
 ```bash
