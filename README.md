@@ -144,7 +144,7 @@ Feel free to open issues or PRs! Your feedback helps make **NillDrik** stronger.
 
 ---
 
-# 🩸 Let the Seer guide your path through vulnerabilities.
+## 🩸 Let the Seer guide your path through vulnerabilities.
 
 > "In code as in life, the unseen may harm the most."
 
