@@ -146,9 +146,13 @@ Suggestions:
 * Build integrations (e.g., Slack, Teams, SIEM)
 * Extend functionality to Docker images
 
-### 👨‍💻 Run dev setup
+## First Run (Initial Setup)
 ```bash
 python3 nilldrik.py --debug --keepfiles --format all
+```
+## Subsequent Runs 
+```bash
+nilldrik.py [-h] [--update] [--update-db] [--format {json,csv,txt,html,all}] [--min-cve-year MIN_CVE_YEAR] [--debug] [--keepfiles]
 ```
 
 Open issues or submit pull requests anytime!
