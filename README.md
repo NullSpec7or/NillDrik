@@ -76,10 +76,10 @@ python3 nilldrik.py --update --update-db
 * Pulls latest CVEs from [cvelistV5](https://github.com/CVEProject/cvelistV5)
 * Builds an optimized local CVE SQLite DB
 
-### 📊 Run a Basic Scan
+### 📊 Run a Basic Scan with reports saved in different formats
 
 ```bash
-python3 nilldrik.py
+python3 nilldrik.py --format all
 ```
 
 * Scans installed packages
