@@ -58,7 +58,7 @@ Custom plugin support for others coming soon.
 git clone https://github.com/NullSpec7or/NillDrik.git
 cd NillDrik
 pip install -r requirements.txt
-chmod +x nilldrik.py
+Python3 nilldrik.py
 ````
 
 ✅ Ensure `git`, `sqlite3`, and Python ≥ 3.8 are installed.
