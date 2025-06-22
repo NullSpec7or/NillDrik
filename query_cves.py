@@ -8,9 +8,14 @@ import csv
 import os
 from pathlib import Path
 import re
+from packaging.version import parse as parse_version
+from normalize_packages import normalize_version as normalize_debian_version
+from packaging.version import Version
+from packaging.specifiers import SpecifierSet
 
 
-REPORT_DIR = "NillDrick's-Report"
+
+REPORT_DIR = 'NillDrik-Reports'
 os.makedirs(REPORT_DIR, exist_ok=True)
 
 BANNER = r"""
@@ -40,6 +45,11 @@ def extract_year_from_cve(cve_id):
             return int(parts[1])
     return 1999
 
+
+def normalize_debian_version(version):
+    return version.split('-')[0] if '-' in version else version
+
+
 def sanitize_expression(expr):
     if not expr:
         return ""
@@ -49,47 +59,31 @@ def sanitize_expression(expr):
     expr = expr.strip()
     expr = expr.replace(" and ", ",").replace("&", ",")
     expr = expr.replace("to", ",").replace("upto", ",")
-    expr = re.sub(r'[^\d<>=., ]+', '', expr)
+    expr = re.sub(r'[^\d\.\+a-zA-Z\-<>=,]', '', expr)
     expr = re.sub(r'\s+', '', expr)
     return expr.strip()
-
-def normalize_debian_version(version):
-    return version.split('-')[0] if '-' in version else version
 
 def ver_in_range(installed_str, expr_str, debug=False):
     if not installed_str or not expr_str:
         return False
 
     try:
-        inst_v = parse_version(normalize_debian_version(installed_str))
+        # Normalize version before parsing
+        cleaned_version = normalize_debian_version(installed_str)
+
+        # Try to parse as a semantic version
+        version = Version(cleaned_version)
+
+        # Sanitize and parse the specifier set
         expr_str = sanitize_expression(expr_str)
+        spec_set = SpecifierSet(expr_str)
 
-        if not re.search(r'\d+\.\d+', expr_str):
-            raise ValueError("No version-like pattern in expression")
+        result = version in spec_set
 
-        conditions = expr_str.split(",")
-        for cond in conditions:
-            cond = cond.strip()
-            if not cond:
-                continue
+        if debug:
+            print(f"[DEBUG] Comparing {cleaned_version} against {expr_str} → {'MATCH' if result else 'NO MATCH'}")
 
-            match = re.match(r'(<=|>=|==|<|>)\s*([\d\.\+a-zA-Z\-]+)', cond)
-            if not match:
-                raise ValueError(f"Invalid version condition: {cond}")
-
-            op, val = match.groups()
-            val_v = parse_version(normalize_debian_version(val))
-
-            if debug:
-                print(f"[DEBUG] Comparing {inst_v} {op} {val_v}")
-
-            if op == "<" and not (inst_v < val_v): return False
-            if op == ">" and not (inst_v > val_v): return False
-            if op == "<=" and not (inst_v <= val_v): return False
-            if op == ">=" and not (inst_v >= val_v): return False
-            if op == "==" and not (inst_v == val_v): return False
-
-        return True
+        return result
 
     except Exception as e:
         raise ValueError(f"Version comparison failed: {e}")
@@ -109,7 +103,7 @@ def scan_sqlite_for_cves(normalized_packages, version_map, debug=False, min_cve_
         if not clean_version:
             continue
 
-        cur.execute("SELECT * FROM cves WHERE package LIKE ?", (f"%{norm_pkg}%",))
+        cur.execute("SELECT * FROM cves WHERE package = ?", (norm_pkg,))
         rows = cur.fetchall()
 
         for row in rows:
@@ -218,7 +212,7 @@ def generate_final_report(matches, fmt="json"):
 
     if fmt in ["html", "all"]:
         with open(base_name.with_suffix(".html"), "w") as f:
-            f.write("<html><head><title>Nill Drick CVE Scanner</title></head><body>")
+            f.write("<html><head><title>NillDrik CVE Scanner</title></head><body>")
             f.write(f"<pre>{BANNER.replace('\n', '<br>').replace(' ', '&nbsp;')}</pre><hr>")
             for m in matches:
                 f.write(f"<h3>{m['cve']}</h3>")
@@ -240,7 +234,7 @@ def save_invalid_conditions(invalid_conditions):
 
 
 
-    report_path = Path("NillDrik's-Reports")
+    report_path = Path("NillDrik-Reports")
     report_path.mkdir(exist_ok=True)
 
     invalid_file = report_path / "invalid_version_expressions.json"

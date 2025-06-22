@@ -53,19 +53,26 @@ def normalize_package_name(pkg, package_map=None):
         return package_map[pkg]
 
     # Step 2: Strip prefixes
-    prefixes = ["lib", "node-", "ruby-", "perl-", "python", "gir1.2:", "7zip"]
+    prefixes = [
+    "lib", "node-", "ruby-", "perl-", "python", "gir1.2:", "7zip",
+    "golang-", "php", "java:", "dotnet-", "postgresql-", "mysql-"
+]
     for pre in prefixes:
         if pkg.startswith(pre):
             pkg = pkg[len(pre):]
 
     # Step 3: Strip suffixes
-    suffixes = ["-dev", "-dbg", "-doc", "-server", "-ng", "-bin", "-common", "-tools", "-devel"]
+    suffixes = [
+    "-dev", "-dbg", "-doc", "-server", "-ng", "-bin", "-common", "-tools", "-devel",
+    "-runtime", "-client", "-utils", "-data", "-gui", "-minimal", "-light", "-full"
+]
     for suf in suffixes:
         if pkg.endswith(suf):
             pkg = pkg[:-len(suf)]
 
     # Step 4: Strip versioned suffixes like -1.2.3, _git2023
     pkg = re.sub(r'[-_][\d+.*$]+', '', pkg)
+
 
     return pkg.strip()
 

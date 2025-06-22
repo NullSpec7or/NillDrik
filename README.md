@@ -1,151 +1,167 @@
-|| Om Shri Hari ||
 
-# 🩸 NillDrik – The Seer from Niladri
+# 🔮NillDrik – The Seer from Niladri
 
 > *"Where the sacred eye rests, shadows in code unravel."*  
-> A CVE scanner that peers into the darkness of your dependencies.
+A CVE scanner built with precision — designed to peer into the darkness of software dependencies.
+
+
+## 🌟 About
+
+![NillDrik Logo](assets/logo.png)
+
+
+**NillDrik** is an advanced static vulnerability scanner that identifies known security flaws (CVEs) in installed packages across major Linux distributions. It operates entirely offline using a locally built SQLite database, making it fast, secure, and ideal for red teaming, penetration testing, and system hardening.
+
+Crafted by [Rupesh Kumar (@Null Spec7or)](https://twitter.com/nullspec7or), NillDrik brings clarity to chaos—detecting vulnerabilities before they become exploits.
 
 ---
 
-## 🔍 Overview
+## 🛠 Key Features
 
-**NillDrik** is a powerful and lightweight tool designed to scan your installed software packages against known Common Vulnerabilities and Exposures (CVEs). Built with precision, it leverages local SQLite databases of CVE data to provide fast and accurate vulnerability detection without relying on external APIs.
-
-This tool was created by [@Null Spec7or](https://twitter.com/nullspec7or) and is ideal for penetration testing, red teaming, or simply keeping your systems secure.
-
----
-
-## 🧰 Features
-
-- ✅ CVE scanning of locally installed packages
-- 📦 Automatic normalization of package names and versions
-- 🗃️ Local SQLite-based CVE database for speed and offline usage
-- 🔄 Full support for updating CVE data from official sources
-- 📄 Generate reports in multiple formats: JSON, CSV, TXT, HTML
-- 🗂️ Supports filtering by minimum CVE year
-- 💻 Debug mode for advanced diagnostics
+| Feature               | Description                                      |
+|------------------------|--------------------------------------------------|
+| 🔍 CVE Detection       | Matches installed packages against known CVEs   |
+| 🗃️ Offline Database     | Uses SQLite for fast, API-free scanning          |
+| 🔄 Auto-Update Support | Fetches latest CVE data from upstream sources   |
+| 🧹 Smart Cleanup        | Deletes temporary files after scan (optional)   |
+| 📄 Multi-format Output  | Supports JSON, CSV, TXT, HTML, or all formats   |
+| 🧪 Debug Mode           | Helps in diagnosing issues during matching      |
+| 📅 Year Filtering       | Scan only relevant CVEs using year-based filters|
 
 ---
 
-## 🧑‍💻 Code Authors
+## 👤 Author
 
-- **Rupesh Kumar (@Null Spec7or)** <br>
-  Linkdein: https://www.linkedin.com/in/rupeshkumar33 <br>
-  Twitter: [@nullspec7or](https://twitter.com/nullspec7or)  
-  GitHub: [github.com/NullSpec7or](https://github.com/NullSpec7or)
+- **Rupesh Kumar** ([@Null Spec7or](https://twitter.com/nullspec7or))  
+  - GitHub: [@NullSpec7or](https://github.com/NullSpec7or)  
+  - LinkedIn: [Connect with me on LinkedIn](https://www.linkedin.com/in/rupeshkumar33)
 
----
-
-## 🛠 Requirements
-
-Make sure you have the following installed:
-
-- Python 3.8+
-- Git (for fetching CVE data)
-- `sqlite3` (comes pre-installed with Python)
+> "Niladri sees all — even what hides in code."
 
 ---
 
-## 📦 Installation
+## 📦 Supported Distributions
+
+NillDrik supports automatic package detection for:
+
+- 🐧 **Debian / Ubuntu**
+- 🐘 **Red Hat / Fedora**
+- 🏆 **Arch Linux**
+
+Custom plugin support for others coming soon.
+
+---
+
+## ⚙️ Installation
 
 ```bash
 git clone https://github.com/NullSpec7or/NillDrik.git
-cd nilldrik
+cd NillDrik
 pip install -r requirements.txt
-```
+chmod +x nilldrik.py
+````
 
+✅ Ensure `git`, `sqlite3`, and Python ≥ 3.8 are installed.
 
 ---
 
-## ⚙️ Usage
+## 🚀 Quick Start
 
-### First Scan
-
-For the first scan , it is required to run this command in order to build your local CVE DB. This process can take anywhere between 18-40 minutes on first run. Subsequent scans are expected to complete under 20 minutes , however, this depends upon the system which is being scanned. 
+### 🔧 First-Time Setup
 
 ```bash
-python3 nilldrik.py --update --update-db 
+python3 nilldrik.py --update --update-db
 ```
-### Basic Scan
+
+* Pulls latest CVEs from [cvelistV5](https://github.com/CVEProject/cvelistV5)
+* Builds an optimized local CVE SQLite DB
+
+### 📊 Run a Basic Scan
 
 ```bash
-python nilldrik.py
+python3 nilldrik.py
 ```
 
-### Options
-
-| Flag              | Description                                      |
-|-------------------|--------------------------------------------------|
-| `--update`        | Update the local CVE repository before scanning  |
-| `--update-db`     | Rebuild the SQLite CVE database                  |
-| `--format [json/csv/txt/html/all]` | Set output format for the report |
-| `--min-cve-year Y`| Only match CVEs from year Y or newer             |
-| `--debug`         | Enable debug output                              |
-
-### Example Commands
-
-Update CVE database and rebuild SQLite:
-
-```bash
-python nilldrik.py --update --update-db
-```
-
-Run a scan and generate all report types:
-
-```bash
-python nilldrik.py --format all --min-cve-year 2020
-```
+* Scans installed packages
+* Compares with CVE database
+* Generates report (default: `JSON`)
 
 ---
 
-## 📁 Output
+## 🧾 CLI Options
 
-The final report will be saved in the NillDrik's-Report's directory in the specified format(s):
-
-- `cve_report.json`
-- `cve_report.csv`
-- `cve_report.txt`
-- `cve_report.html`
-
-Also, any invalid conditions found during matching will be saved in `invalid_conditions.log`.
+| Flag             | Description                                                |
+| ---------------- | ---------------------------------------------------------- |
+| `--update`       | Update CVE data from upstream GitHub repo                  |
+| `--update-db`    | Rebuild the local SQLite CVE database                      |
+| `--format`       | Output formats: `json`, `csv`, `txt`, `html`, `all`        |
+| `--min-cve-year` | Filter CVEs from specific year onward                      |
+| `--debug`        | Enable verbose output for troubleshooting                  |
+| `--keepfiles`    | Retain temporary files like `installed_packages.txt`, etc. |
 
 ---
 
-## 📁 Project Structure
+## 📁 Output Reports
+
+Stored in `NillDrik-Reports/`:
+
+* `cve_report.json`
+* `cve_report.csv`
+* `cve_report.txt`
+* `cve_report.html`
+
+Also generates:
+
+* `invalid_conditions.log` – logs skipped CVEs with unsupported version formats
+
+---
+
+## 🧱 Project Structure
 
 ```
-nilldrik/
-├── fetch_cve.py           # Fetches raw CVE data
-├── import_cves.py         # Imports CVE data into SQLite
-├── query_cves.py          # Scans SQLite DB for matches
-├── normalize_packages.py  # Normalizes package names and versions
-├── nilldrik.py            # Main script
-└── requirements.txt       # Python dependencies
+NillDrik/
+├── fetch_cve.py           # Pulls CVE data from GitHub
+├── import_cves.py         # Parses CVE and loads to DB
+├── query_cves.py          # Scans installed packages
+├── normalize_packages.py  # Normalizes package names for matching
+├── nilldrik.py            # Main execution script
+├── requirements.txt       # Python dependencies
+└── last_commit.txt        # Tracks last pull commit hash
 ```
 
----
-
-## 📜 License
-
-This project is licensed under the **Apache 2.0 License**. See `LICENSE` for more details.
-
----
-
-## 🌟 Acknowledgments
-
-- CVE data sourced from public repositories and MITRE.
-- Inspired by tools like `cvechecker`, `pkgscan`, and `CVE-bin-tool`.
-
----
-
-## 📬 Feedback & Contributions
-
-Feel free to open issues or PRs! Your feedback helps make **NillDrik** stronger.
-
----
 
 ## 🩸 Let the Seer guide your path through vulnerabilities.
 
 > "In code as in life, the unseen may harm the most."
 
---- 
+
+## 🤝 Contributing
+
+You're welcome to contribute! ✨
+
+Suggestions:
+
+* Add more distro support
+* Improve CVE parsing heuristics
+* Build integrations (e.g., Slack, Teams, SIEM)
+* Extend functionality to Docker images
+
+### 👨‍💻 Run dev setup
+```bash
+python3 nilldrik.py --debug --keepfiles --format all
+```
+
+Open issues or submit pull requests anytime!
+
+
+## 📬 Feedback & Contact
+
+* 📧 Email: [nullspec7or@gmail.com](mailto:nullspec7or@gmail.com)
+* 🐦 Twitter: [@nullspec7or](https://twitter.com/nullspec7or)
+
+---
+
+## 📜 License
+
+Licensed under **Apache License 2.0**
+See `LICENSE` for full details.
